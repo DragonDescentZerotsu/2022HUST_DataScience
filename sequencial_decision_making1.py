@@ -26,7 +26,7 @@ def expected_improvement(f_max, mu, varSigma, x):
     alpha=(f_max-mu)*stat.norm.cdf(f_max,mu,varSigma)+varSigma*stat.norm(mu,varSigma).pdf(f_max)
     return alpha
 
-iterations=10
+iterations=11
 #choose the start points randomly
 x_star = np.linspace(-0.1, 1, 200)
 index=np.random.permutation(x_star.shape[0])
@@ -54,13 +54,14 @@ for j in range(iterations):
 
     fig = plt.figure(figsize=(20, 10))
     ax = fig.add_subplot(111)
-    ax.plot(np.linspace(-0.1, 1, 200),f(np.linspace(-0.1, 1, 200)))
+    ax.plot(np.linspace(-0.1, 1, 200),f(np.linspace(-0.1, 1, 200)), linestyle='--', color='r' , linewidth=3, label='True function')
     
-    ax.plot(x_star, mu_star.T,zorder=1)
+    ax.plot(x_star, mu_star.T,zorder=1, label='Surrogate function')
     ax.plot(x_star,alpha,color='magenta')
 
+    plt.legend()
 
-    ax.fill_between(x_star,mu_star-np.sqrt(variance_star),mu_star+np.sqrt(variance_star),color='darkorange',alpha=0.2)
+    ax.fill_between(x_star,mu_star-np.sqrt(variance_star),mu_star+np.sqrt(variance_star),color='darkorange',alpha=0.3)
     ax.scatter(x_know, y, 200, 'cyan', '*', zorder=3)
 
     fig.savefig('./图片/'+'picture'+str(j))
